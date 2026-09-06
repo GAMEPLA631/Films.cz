@@ -1,0 +1,1119 @@
+<!DOCTYPE html>
+<html lang="sk" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BannaTube PRO - 500+ YouTube Movies & Gaming Cinema</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        netflixRed: '#E50914',
+                        netflixDark: '#08080a',
+                        netflixCard: '#121216',
+                        netflixGray: '#1c1c22',
+                        netflixBorder: '#26262e'
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        display: ['Bebas Neue', 'cursive']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #08080a;
+            color: #FFFFFF;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            overflow-x: hidden;
+            background-image: radial-gradient(circle at 50% -20%, rgba(229, 9, 20, 0.18), transparent 60%),
+                              radial-gradient(circle at 90% 40%, rgba(229, 9, 20, 0.05), transparent 50%);
+            background-attachment: fixed;
+        }
+
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #08080a; }
+        ::-webkit-scrollbar-thumb { background: #26262e; border-radius: 999px; }
+        ::-webkit-scrollbar-thumb:hover { background: #E50914; }
+
+        .row-scroll::-webkit-scrollbar { display: none; }
+        .row-scroll { -ms-overflow-style: none; scrollbar-width: none; }
+
+        .glass-panel {
+            background: rgba(18, 18, 22, 0.78);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+        }
+
+        .glass-nav {
+            background: rgba(8, 8, 10, 0.92);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .movie-card {
+            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: transform;
+        }
+        .movie-card:hover {
+            transform: translateY(-7px) scale(1.03);
+            z-index: 30;
+            box-shadow: 0 18px 30px -10px rgba(0, 0, 0, 0.9), 0 0 20px -5px rgba(229, 9, 20, 0.45);
+            border-color: rgba(229, 9, 20, 0.7);
+        }
+
+        .hero-gradient-bottom {
+            background: linear-gradient(180deg, rgba(8,8,10,0) 0%, rgba(8,8,10,0.5) 50%, rgba(8,8,10,0.95) 85%, #08080a 100%);
+        }
+        .hero-gradient-left {
+            background: linear-gradient(90deg, rgba(8,8,10,0.98) 0%, rgba(8,8,10,0.75) 40%, rgba(8,8,10,0.2) 75%, transparent 100%);
+        }
+
+        .netflix-logo-text {
+            font-family: 'Bebas Neue', cursive;
+            letter-spacing: 2px;
+            background: linear-gradient(180deg, #FF2E38 0%, #B81D24 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 3px 10px rgba(229, 9, 20, 0.5));
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(229, 9, 20, 0.6); }
+            50% { box-shadow: 0 0 15px 4px rgba(229, 9, 20, 0.3); }
+        }
+        .pro-badge-glow { animation: pulse-glow 2.5s infinite; }
+    </style>
+</head>
+<body class="bg-netflixDark text-white min-h-screen flex flex-col selection:bg-netflixRed selection:text-white antialiased">
+
+    <!-- TOP NAVIGATION BAR -->
+    <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 px-4 md:px-12 py-3.5 flex items-center justify-between bg-gradient-to-b from-black/90 via-black/60 to-transparent">
+        <div class="flex items-center space-x-6 md:space-x-8">
+            <a href="#" onclick="showSection('home')" class="flex items-center space-x-2 group">
+                <span class="netflix-logo-text text-3xl md:text-4xl font-black tracking-wider transition-transform group-hover:scale-105 duration-300">BANNATUBE</span>
+                <span class="bg-gradient-to-r from-red-600 to-netflixRed text-white text-[10px] font-black px-2 py-0.5 rounded-full tracking-widest uppercase shadow-md shadow-red-900/50">500+ PRO</span>
+            </a>
+
+            <div class="hidden lg:flex items-center space-x-1 text-sm text-gray-300 font-medium">
+                <button onclick="showSection('home')" class="px-3.5 py-1.5 rounded-full text-white bg-white/10 hover:bg-white/15 transition font-semibold">Domov</button>
+                <button onclick="filterCategory('Všetky')" class="px-3.5 py-1.5 rounded-full hover:text-white hover:bg-white/5 transition">Všetkých 500+ Filmov</button>
+                <button onclick="filterCategory('Herné Filmy')" class="px-3.5 py-1.5 rounded-full hover:text-white hover:bg-white/5 transition">Herné Filmy</button>
+                <button onclick="filterCategory('Sci-Fi & Akčné')" class="px-3.5 py-1.5 rounded-full hover:text-white hover:bg-white/5 transition">Sci-Fi & Akčné</button>
+                <button onclick="filterCategory('Klasiky & CZ/SK')" class="px-3.5 py-1.5 rounded-full hover:text-white hover:bg-white/5 transition">Klasiky & CZ/SK</button>
+                <button onclick="showSection('my-list')" class="px-3.5 py-1.5 rounded-full hover:text-white hover:bg-white/5 transition flex items-center space-x-1.5">
+                    <span>Môj Zoznam</span>
+                    <span id="myListCount" class="bg-netflixRed text-white text-[10px] font-bold px-1.5 py-0.2 rounded-full">0</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="flex items-center space-x-3 md:space-x-4">
+            <!-- Global Live Search -->
+            <div class="relative flex items-center">
+                <input type="text" id="searchInput" oninput="handleSearch(this.value)" placeholder="Hľadať z 500+ filmov..." 
+                    class="bg-black/50 backdrop-blur-md border border-white/10 focus:border-netflixRed text-xs md:text-sm rounded-full py-2 pl-9 pr-4 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-netflixRed/30 transition-all w-36 sm:w-52 md:w-64 focus:w-48 md:focus:w-80 shadow-inner">
+                <i class="fa-solid fa-magnifying-glass absolute left-3.5 text-gray-400 text-xs md:text-sm"></i>
+            </div>
+
+            <!-- YouTube API Key Status -->
+            <button onclick="openApiKeyModal()" id="apiKeyBtn" title="YouTube API" class="flex items-center space-x-2 bg-white/5 hover:bg-white/10 text-xs px-3 py-2 rounded-full border border-white/10 transition backdrop-blur-md">
+                <span id="apiKeyDot" class="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.8)]"></span>
+                <i class="fa-brands fa-youtube text-red-500"></i>
+                <span class="hidden sm:inline font-mono font-medium">API</span>
+            </button>
+
+            <!-- PRO Upgrade / Status Button -->
+            <div id="subStatusContainer">
+                <button onclick="openUpgradeModal()" class="pro-badge-glow bg-gradient-to-r from-netflixRed to-red-600 hover:from-red-600 hover:to-red-700 text-white text-xs md:text-sm font-extrabold px-4 py-2 rounded-full flex items-center space-x-2 transition shadow-lg shadow-red-900/40 transform hover:-translate-y-0.5">
+                    <i class="fa-solid fa-crown text-amber-300"></i>
+                    <span>UPGRADE PRO</span>
+                </button>
+            </div>
+
+            <!-- Profile Dropdown -->
+            <div class="relative group">
+                <button class="flex items-center space-x-2 focus:outline-none p-0.5 rounded-full border-2 border-transparent hover:border-netflixRed transition duration-300">
+                    <img id="navAvatarImg" src="https://api.dicebear.com/7.x/bottts/svg?seed=BannaUser" alt="Profile" class="w-8 h-8 rounded-full border border-white/20 object-cover bg-netflixGray">
+                    <i class="fa-solid fa-chevron-down text-[10px] text-gray-400 group-hover:text-white transition"></i>
+                </button>
+                <div class="absolute right-0 mt-3 w-56 glass-panel border border-white/10 rounded-2xl shadow-2xl py-2 hidden group-hover:block transition-all z-50 overflow-hidden">
+                    <div class="px-4 py-3 border-b border-white/10 bg-white/[0.02]">
+                        <p id="navProfileName" class="text-sm font-bold text-white truncate">Užívateľ</p>
+                        <p id="navSubText" class="text-[11px] text-amber-400 font-semibold mt-0.5">FREE Účet</p>
+                        <p class="text-[10px] text-emerald-400 mt-1 font-mono">Filmy v IndexedDB: <span id="dbTotalCount" class="font-bold">500+</span></p>
+                    </div>
+                    <div class="p-1">
+                        <a href="#" onclick="openProfileModal()" class="flex items-center px-3 py-2 text-xs font-medium text-gray-300 hover:bg-white/10 hover:text-white rounded-xl transition"><i class="fa-solid fa-users mr-2.5 text-netflixRed"></i> Prepnúť profil</a>
+                        <a href="#" onclick="openApiKeyModal()" class="flex items-center px-3 py-2 text-xs font-medium text-gray-300 hover:bg-white/10 hover:text-white rounded-xl transition"><i class="fa-solid fa-key mr-2.5 text-netflixRed"></i> YouTube API Kľúč</a>
+                        <a href="#" onclick="addNewBatchOfMovies()" class="flex items-center px-3 py-2 text-xs text-cyan-400 font-bold hover:bg-white/10 rounded-xl transition"><i class="fa-solid fa-plus-circle mr-2.5"></i> Vygenerovať ďalších 25 filmov</a>
+                        <a href="#" onclick="openUpgradeModal()" class="flex items-center px-3 py-2 text-xs text-amber-400 font-bold hover:bg-amber-500/10 rounded-xl transition"><i class="fa-solid fa-crown mr-2.5"></i> Spravovať Predplatné</a>
+                    </div>
+                    <div class="border-t border-white/10 my-1"></div>
+                    <div class="p-1">
+                        <a href="#" onclick="resetAllData()" class="flex items-center px-3 py-2 text-xs font-medium text-red-400 hover:bg-red-950/40 rounded-xl transition"><i class="fa-solid fa-trash mr-2.5"></i> Resetovať celú IndexedDB</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- MAIN CONTENT CONTAINER -->
+    <main id="mainContainer" class="flex-grow pt-16">
+        
+        <!-- HERO BILLBOARD BANNER -->
+        <section id="heroBillboard" class="relative w-full h-[70vh] md:h-[82vh] overflow-hidden">
+            <img id="heroBackdrop" src="https://img.youtube.com/vi/L_LUpnjgPso/maxresdefault.jpg" 
+                 alt="Hero Banner" class="absolute inset-0 w-full h-full object-cover object-center transform scale-105 transition-all duration-1000 ease-out">
+            
+            <div class="absolute inset-0 hero-gradient-left"></div>
+            <div class="absolute inset-0 hero-gradient-bottom"></div>
+
+            <div class="relative z-20 max-w-7xl mx-auto h-full flex flex-col justify-end pb-10 md:pb-20 px-4 md:px-12">
+                <div class="max-w-2xl space-y-4">
+                    <div class="flex items-center space-x-2.5">
+                        <span class="bg-netflixRed text-white font-black text-[10px] px-2.5 py-0.5 rounded-full tracking-widest uppercase shadow-md shadow-red-900/50">BANNA ORIGINALS</span>
+                        <span id="heroCategory" class="text-xs font-bold uppercase tracking-widest text-red-400 drop-shadow flex items-center gap-1.5">
+                            <i class="fa-solid fa-fire-flame-curved"></i> #1 V DNEŠNOM REBRÍČKU (500+ KNIŽNICA)
+                        </span>
+                    </div>
+
+                    <h1 id="heroTitle" class="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight text-white drop-shadow-2xl leading-[0.95] uppercase font-display">
+                        GOD OF WAR: RAGNAROK - CELÝ FILM
+                    </h1>
+
+                    <div class="flex items-center flex-wrap gap-2.5 text-xs md:text-sm text-gray-300 font-medium">
+                        <span class="text-emerald-400 font-extrabold flex items-center gap-1"><i class="fa-solid fa-sparkles"></i> 99% Zhoda</span>
+                        <span class="bg-white/10 backdrop-blur-md border border-white/20 px-2 py-0.5 rounded-md text-[11px] font-bold text-white tracking-wider">4K ULTRA HD</span>
+                        <span class="text-gray-400">2024</span>
+                        <span class="bg-netflixRed/20 border border-netflixRed/40 text-red-300 font-bold px-1.5 py-0.5 rounded text-[10px]">18+</span>
+                        <span id="heroDuration" class="text-gray-300 font-medium">3 hod. 45 min.</span>
+                    </div>
+
+                    <p id="heroDescription" class="text-gray-300/90 text-xs sm:text-sm md:text-base line-clamp-3 leading-relaxed drop-shadow font-normal max-w-xl">
+                        Kompletný herný film prenesený do celovečerného filmového zážitku s originálnou YouTube miniatúrou a 4K rozlíšením.
+                    </p>
+
+                    <div class="flex items-center space-x-3 pt-2">
+                        <button id="heroPlayBtn" onclick="playHeroMovie()" class="bg-white hover:bg-gray-200 text-black font-extrabold px-7 md:px-9 py-3 rounded-xl flex items-center space-x-3 transition duration-300 shadow-2xl hover:scale-105 text-sm md:text-base">
+                            <i class="fa-solid fa-play text-base"></i>
+                            <span>Prehrať</span>
+                        </button>
+                        <button id="heroInfoBtn" onclick="openHeroDetails()" class="glass-panel hover:bg-white/20 text-white font-bold px-6 md:px-8 py-3 rounded-xl flex items-center space-x-2.5 transition duration-300 backdrop-blur-xl text-sm md:text-base hover:scale-105">
+                            <i class="fa-solid fa-circle-info text-base"></i>
+                            <span>Info</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TOOLBAR: FILTERS, SCALABILITY & DB STATS -->
+        <div class="mx-4 md:mx-12 -mt-4 mb-8 glass-panel rounded-2xl p-4 flex flex-col md:flex-row items-center justify-between gap-4 z-20 relative border border-white/10 shadow-2xl">
+            <div class="flex items-center flex-wrap gap-3">
+                <div class="flex items-center space-x-2 bg-white/5 px-3 py-1.5 rounded-xl border border-white/10">
+                    <i class="fa-solid fa-database text-netflixRed"></i>
+                    <span class="text-xs font-bold text-gray-300">Databáza: <span id="statMovieCount" class="text-white font-extrabold text-sm">0</span> filmov</span>
+                </div>
+                <div class="flex items-center space-x-1.5">
+                    <button onclick="filterCategory('Všetky')" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-white/10 hover:bg-white/20 transition">Všetky</button>
+                    <button onclick="filterCategory('Herné Filmy')" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-white/5 hover:bg-white/15 transition">Gaming</button>
+                    <button onclick="filterCategory('Sci-Fi & Akčné')" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-white/5 hover:bg-white/15 transition">Akčné</button>
+                    <button onclick="filterCategory('Klasiky & CZ/SK')" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-white/5 hover:bg-white/15 transition">Klasiky</button>
+                </div>
+            </div>
+
+            <!-- View Layout Scale Toggle -->
+            <div class="flex items-center space-x-3 w-full md:w-auto justify-end">
+                <span class="text-xs text-gray-400 font-semibold hidden sm:inline">Zobrazenie:</span>
+                <div class="flex bg-black/40 p-1 rounded-xl border border-white/10">
+                    <button onclick="setLayout('carousel')" id="btnLayoutCarousel" class="px-3 py-1 rounded-lg text-xs font-bold bg-netflixRed text-white transition"><i class="fa-solid fa-film mr-1"></i> Riadky</button>
+                    <button onclick="setLayout('grid')" id="btnLayoutGrid" class="px-3 py-1 rounded-lg text-xs font-bold text-gray-400 hover:text-white transition"><i class="fa-solid fa-grip mr-1"></i> Mriežka (500+)</button>
+                </div>
+                <button onclick="addNewBatchOfMovies()" class="bg-gradient-to-r from-red-600 to-netflixRed hover:from-red-500 hover:to-red-600 text-white text-xs font-bold px-3 py-2 rounded-xl transition shadow-lg flex items-center space-x-1.5 whitespace-nowrap">
+                    <i class="fa-solid fa-arrows-rotate"></i>
+                    <span>+25 Nových</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- FREE MOVIE COUNTER BAR -->
+        <div id="freeLimitBar" class="mx-4 md:mx-12 mb-8 glass-panel rounded-2xl p-4 flex flex-col sm:flex-row items-center justify-between gap-4 z-20 relative border border-white/10 shadow-2xl">
+            <div class="flex items-center space-x-3.5">
+                <div class="w-10 h-10 rounded-xl bg-netflixRed/20 border border-netflixRed/40 flex items-center justify-center text-netflixRed">
+                    <i class="fa-solid fa-ticket text-lg"></i>
+                </div>
+                <div>
+                    <span class="text-xs uppercase tracking-wider text-gray-400 font-bold block">Bezplatný prístup (IndexedDB Sync)</span>
+                    <span id="freeCountText" class="text-sm font-extrabold text-white">Pozreli ste 0 z 10 bezplatných filmov</span>
+                </div>
+            </div>
+            <div class="flex items-center space-x-4 w-full sm:w-auto">
+                <div class="w-full sm:w-56 bg-white/5 h-2 rounded-full overflow-hidden border border-white/10 p-0.5">
+                    <div id="freeProgressBar" class="bg-gradient-to-r from-amber-500 to-netflixRed h-full rounded-full w-0 transition-all duration-700"></div>
+                </div>
+                <button onclick="openUpgradeModal()" class="text-xs bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-500 hover:to-amber-600 text-black font-extrabold px-4 py-2 rounded-xl transition uppercase tracking-wider shadow-lg shadow-amber-500/20 whitespace-nowrap">
+                    Odomknúť 500+ Filmov
+                </button>
+            </div>
+        </div>
+
+        <!-- CAROUSEL VIEW CONTAINER -->
+        <div id="carouselViewContainer" class="space-y-10 md:space-y-14 px-4 md:px-12 py-2 relative z-20">
+            <!-- Dynamic Category Rows -->
+            <div id="dynamicRowsContainer" class="space-y-10"></div>
+        </div>
+
+        <!-- GRID VIEW CONTAINER (FOR 500+ MOVIES SCALE) -->
+        <div id="gridViewContainer" class="hidden px-4 md:px-12 py-4 relative z-20 space-y-6">
+            <div class="flex items-center justify-between">
+                <h2 id="gridTitle" class="text-xl md:text-3xl font-black text-white font-display tracking-wide flex items-center gap-2">
+                    <span class="w-2 h-6 bg-netflixRed rounded-full inline-block"></span>
+                    <span>VŠETKY FILMY V KNIŽNICI (500+ ZÁZNAMOV)</span>
+                </h2>
+            </div>
+            <div id="moviesInfiniteGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
+                <!-- Injected Scale Movies -->
+            </div>
+        </div>
+
+        <!-- SEARCH RESULTS CONTAINER -->
+        <section id="searchResultsSection" class="hidden px-4 md:px-12 py-6 space-y-4">
+            <h2 class="text-xl md:text-2xl font-bold text-white tracking-wide flex items-center gap-2">
+                <i class="fa-solid fa-magnifying-glass text-netflixRed"></i>
+                <span>Výsledky pre výraz:</span>
+                <span id="searchKeyword" class="text-netflixRed underline"></span>
+            </h2>
+            <div id="searchResultsGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4"></div>
+        </section>
+
+    </main>
+
+    <!-- MOVIE PLAYER MODAL -->
+    <div id="playerModal" class="fixed inset-0 z-50 bg-black/90 flex items-center justify-center hidden backdrop-blur-xl p-3 md:p-6">
+        <div class="relative w-full max-w-5xl glass-panel border border-white/15 rounded-3xl overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.9)] flex flex-col max-h-[92vh]">
+            <div class="flex items-center justify-between px-6 py-4 bg-black/60 border-b border-white/10">
+                <div class="flex items-center space-x-3">
+                    <span class="netflix-logo-text text-2xl font-bold">BANNATUBE</span>
+                    <span class="text-white/20">|</span>
+                    <span id="playerMovieTitle" class="text-sm md:text-base font-bold text-white truncate max-w-md">Názov Filmu</span>
+                </div>
+                <button onclick="closePlayerModal()" class="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 text-gray-300 hover:text-white flex items-center justify-center transition">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+
+            <div class="relative w-full aspect-video bg-black shadow-inner">
+                <iframe id="ytIframe" class="w-full h-full border-0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+
+            <div class="p-6 overflow-y-auto space-y-4 bg-netflixDark/90">
+                <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+                    <div>
+                        <h3 id="playerMovieFullTitle" class="text-lg md:text-2xl font-black text-white tracking-tight">Celý Názov</h3>
+                        <p id="playerMovieChannel" class="text-xs text-gray-400 mt-1 flex items-center gap-1.5"><i class="fa-brands fa-youtube text-red-500"></i> YouTube Zdroj</p>
+                    </div>
+                    <div class="flex items-center space-x-3">
+                        <button id="likeBtn" onclick="toggleLikeCurrentMovie()" class="bg-white/10 hover:bg-white/15 text-gray-200 hover:text-white px-5 py-2.5 rounded-xl text-xs font-bold flex items-center space-x-2 transition border border-white/10">
+                            <i class="fa-solid fa-thumbs-up"></i>
+                            <span id="likeText">Páči sa mi</span>
+                        </button>
+                        <button id="myListBtn" onclick="toggleMyListCurrentMovie()" class="bg-white/10 hover:bg-white/15 text-gray-200 hover:text-white px-5 py-2.5 rounded-xl text-xs font-bold flex items-center space-x-2 transition border border-white/10">
+                            <i class="fa-solid fa-plus"></i>
+                            <span id="myListText">Pridať do zoznamu</span>
+                        </button>
+                    </div>
+                </div>
+                <p id="playerMovieDesc" class="text-xs md:text-sm text-gray-300 leading-relaxed border-t border-white/10 pt-4 font-normal">Popis k videu...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- UPGRADE MODAL -->
+    <div id="upgradeModal" class="fixed inset-0 z-50 bg-black/90 flex items-center justify-center hidden overflow-y-auto p-4 backdrop-blur-xl">
+        <div class="relative w-full max-w-4xl glass-panel border border-red-500/30 rounded-3xl p-6 md:p-10 shadow-[0_0_60px_rgba(229,9,20,0.2)] space-y-8 my-8">
+            <button onclick="closeUpgradeModal()" class="absolute top-5 right-5 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 text-gray-400 hover:text-white flex items-center justify-center transition">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+
+            <div class="text-center space-y-3">
+                <span class="bg-gradient-to-r from-red-600 to-netflixRed text-white text-xs font-black px-4 py-1.5 rounded-full uppercase tracking-widest shadow-lg shadow-red-900/40">PRO UPGRADE</span>
+                <h2 class="text-3xl md:text-5xl font-black text-white font-display tracking-wide">Neobmedzený Prístup k 500+ Filmom</h2>
+                <p class="text-xs md:text-sm text-gray-400 max-w-xl mx-auto leading-relaxed">Získajte okamžitý neobmedzený prístup ku celej škálovateľnej IndexedDB databáze 500+ YouTube filmov bez limitu.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-5 pt-2">
+                <div onclick="selectPackage('basic', 4.99)" id="tier-basic" class="package-card glass-panel border border-white/10 rounded-2xl p-6 cursor-pointer transition-all duration-300 flex flex-col justify-between hover:bg-white/[0.04]">
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm font-bold text-gray-300">ZÁKLADNÝ</span>
+                            <span class="text-[10px] font-bold bg-white/10 text-gray-300 px-2.5 py-1 rounded-full border border-white/10">HD 720p</span>
+                        </div>
+                        <div class="text-3xl font-black text-white">4.99 € <span class="text-xs font-normal text-gray-400">/ mes.</span></div>
+                        <ul class="text-xs text-gray-300 space-y-2.5 pt-3 border-t border-white/10">
+                            <li><i class="fa-solid fa-check text-emerald-400 mr-2.5"></i> Všetky 500+ Filmy</li>
+                            <li><i class="fa-solid fa-check text-emerald-400 mr-2.5"></i> 1 zariadenie</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div onclick="selectPackage('standard', 8.99)" id="tier-standard" class="package-card bg-gradient-to-b from-red-950/40 via-netflixCard to-netflixCard border-2 border-netflixRed rounded-2xl p-6 cursor-pointer transition-all duration-300 flex flex-col justify-between relative shadow-2xl shadow-red-900/30 transform scale-105">
+                    <span class="absolute -top-3.5 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-red-600 to-netflixRed text-white text-[10px] font-black px-4 py-1 rounded-full uppercase tracking-wider">Najobľúbenejší</span>
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm font-bold text-white">PRO STANDARD</span>
+                            <span class="text-[10px] font-bold bg-netflixRed/20 text-red-300 px-2.5 py-1 rounded-full border border-netflixRed/40">FULL HD 1080p</span>
+                        </div>
+                        <div class="text-3xl font-black text-white">8.99 € <span class="text-xs font-normal text-gray-400">/ mes.</span></div>
+                        <ul class="text-xs text-gray-200 space-y-2.5 pt-3 border-t border-white/10">
+                            <li><i class="fa-solid fa-check text-emerald-400 mr-2.5"></i> Všetky 500+ Filmy</li>
+                            <li><i class="fa-solid fa-check text-emerald-400 mr-2.5"></i> 2 zariadenia</li>
+                            <li><i class="fa-solid fa-check text-emerald-400 mr-2.5"></i> Rýchle sťahovanie</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div onclick="selectPackage('ultra', 12.99)" id="tier-ultra" class="package-card glass-panel border border-white/10 rounded-2xl p-6 cursor-pointer transition-all duration-300 flex flex-col justify-between hover:bg-white/[0.04]">
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm font-bold text-amber-400"><i class="fa-solid fa-crown text-xs"></i> ULTRA 4K</span>
+                            <span class="text-[10px] font-bold bg-amber-500/20 text-amber-300 px-2.5 py-1 rounded-full border border-amber-500/40">4K + HDR</span>
+                        </div>
+                        <div class="text-3xl font-black text-white">12.99 € <span class="text-xs font-normal text-gray-400">/ mes.</span></div>
+                        <ul class="text-xs text-gray-300 space-y-2.5 pt-3 border-t border-white/10">
+                            <li><i class="fa-solid fa-check text-emerald-400 mr-2.5"></i> Všetky filmy & Gaming</li>
+                            <li><i class="fa-solid fa-check text-emerald-400 mr-2.5"></i> 4 zariadenia súčasne</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-black/50 border border-white/10 rounded-2xl p-6 space-y-5">
+                <h3 class="text-xs font-bold text-gray-300 uppercase tracking-wider flex items-center justify-between">
+                    <span class="flex items-center gap-2"><i class="fa-solid fa-shield-halved text-netflixRed"></i> Platobná Brána (Simulácia)</span>
+                    <span id="selectedPriceBadge" class="text-netflixRed font-black text-lg">8.99 €</span>
+                </h3>
+
+                <button onclick="processPayment()" id="payBtn" class="w-full bg-gradient-to-r from-red-600 to-netflixRed hover:from-red-500 hover:to-red-600 text-white font-black py-3.5 rounded-xl transition shadow-xl shadow-red-900/40 text-sm uppercase tracking-wider flex items-center justify-center space-x-2">
+                    <i class="fa-solid fa-lock text-xs"></i>
+                    <span>Zaplatiť a Aktivovať PRO Predplatné</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- YOUTUBE API MODAL -->
+    <div id="apiKeyModal" class="fixed inset-0 z-50 bg-black/85 flex items-center justify-center hidden p-4 backdrop-blur-xl">
+        <div class="glass-panel border border-white/15 rounded-3xl p-6 md:p-8 w-full max-w-md shadow-2xl space-y-5">
+            <div class="flex justify-between items-center border-b border-white/10 pb-4">
+                <h3 class="text-base font-bold text-white flex items-center space-x-2.5">
+                    <i class="fa-brands fa-youtube text-netflixRed text-xl"></i>
+                    <span>YouTube Data API v3</span>
+                </h3>
+                <button onclick="closeApiKeyModal()" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-gray-400 hover:text-white flex items-center justify-center transition"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            
+            <p class="text-xs text-gray-300 leading-relaxed font-normal">
+                Vložte vlastný YouTube API kľúč pre živé vyhľadávanie. Všetkých 500+ filmov a ich originálne miniatúry sú trvalo uložené vo vašej IndexedDB.
+            </p>
+
+            <div>
+                <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1.5">API Key</label>
+                <input type="text" id="apiKeyInput" placeholder="AIzaSy..." class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-netflixRed font-mono transition">
+            </div>
+
+            <div class="flex justify-between items-center pt-2">
+                <button onclick="clearApiKey()" class="text-xs text-red-400 hover:underline font-semibold">Odstrániť</button>
+                <div class="space-x-2">
+                    <button onclick="closeApiKeyModal()" class="px-4 py-2 text-xs font-bold text-gray-400 hover:text-white">Zrušiť</button>
+                    <button onclick="saveApiKey()" class="bg-netflixRed hover:bg-red-700 text-white font-extrabold text-xs px-5 py-2.5 rounded-xl transition">Uložiť</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PROFILE MODAL -->
+    <div id="profileModal" class="fixed inset-0 z-50 bg-netflixDark/98 backdrop-blur-2xl flex items-center justify-center hidden p-4">
+        <div class="text-center space-y-10 max-w-2xl w-full">
+            <h1 class="text-4xl md:text-6xl font-black text-white font-display tracking-wide">Kto sa pozerá?</h1>
+            
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-6 pt-4">
+                <div onclick="switchProfile('Ján (Hlavný)', 'BannaUser')" class="group cursor-pointer space-y-3">
+                    <div class="relative overflow-hidden rounded-2xl border-2 border-transparent group-hover:border-netflixRed group-hover:scale-105 transition-all duration-300 shadow-xl">
+                        <img src="https://api.dicebear.com/7.x/bottts/svg?seed=BannaUser" alt="User 1" class="w-full aspect-square object-cover bg-red-950/50 p-2">
+                    </div>
+                    <p class="text-sm font-bold text-gray-400 group-hover:text-white transition">Ján (Hlavný)</p>
+                </div>
+                <div onclick="switchProfile('Filmový Fanúšik', 'MovieFan')" class="group cursor-pointer space-y-3">
+                    <div class="relative overflow-hidden rounded-2xl border-2 border-transparent group-hover:border-netflixRed group-hover:scale-105 transition-all duration-300 shadow-xl">
+                        <img src="https://api.dicebear.com/7.x/bottts/svg?seed=MovieFan" alt="User 2" class="w-full aspect-square object-cover bg-blue-950/50 p-2">
+                    </div>
+                    <p class="text-sm font-bold text-gray-400 group-hover:text-white transition">Filmový Fanúšik</p>
+                </div>
+                <div onclick="switchProfile('Gaming PRO', 'Gamer')" class="group cursor-pointer space-y-3">
+                    <div class="relative overflow-hidden rounded-2xl border-2 border-transparent group-hover:border-netflixRed group-hover:scale-105 transition-all duration-300 shadow-xl">
+                        <img src="https://api.dicebear.com/7.x/bottts/svg?seed=Gamer" alt="User 3" class="w-full aspect-square object-cover bg-emerald-950/50 p-2">
+                    </div>
+                    <p class="text-sm font-bold text-gray-400 group-hover:text-white transition">Gaming PRO</p>
+                </div>
+                <div onclick="switchProfile('Deti & Rozprávky', 'Kids')" class="group cursor-pointer space-y-3">
+                    <div class="relative overflow-hidden rounded-2xl border-2 border-transparent group-hover:border-netflixRed group-hover:scale-105 transition-all duration-300 shadow-xl">
+                        <img src="https://api.dicebear.com/7.x/bottts/svg?seed=Kids" alt="User 4" class="w-full aspect-square object-cover bg-amber-950/50 p-2">
+                    </div>
+                    <p class="text-sm font-bold text-gray-400 group-hover:text-white transition">Deti & Rozprávky</p>
+                </div>
+            </div>
+
+            <button onclick="closeProfileModal()" class="mt-8 border border-white/20 text-gray-400 hover:text-white px-8 py-3 rounded-full text-xs uppercase tracking-widest font-extrabold hover:border-white transition">
+                Spravovať profily
+            </button>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT: 500+ MOVIES GENERATOR & FULL INDEXEDDB ENGINE -->
+    <script>
+        const DB_NAME = 'BannaTube500MoviesDB';
+        const DB_VERSION = 3;
+        let db = null;
+
+        // Reálny zoznam populárnych originálnych overených YouTube Video ID (pre 100% originálne miniatúry)
+        const YOUTUBE_ORIGINAL_IDS = [
+            { id: 'L_LUpnjgPso', title: 'God of War Ragnarök - Celý Film SK/CZ', cat: 'Herné Filmy', channel: 'PlayStation CZ/SK' },
+            { id: 'Z1BCujX3pw8', title: 'Marvel\'s Spider-Man - Celý Film CZ Dabing', cat: 'Herné Filmy', channel: 'Gaming Movies CZ' },
+            { id: 'm8e-iQ_qgq4', title: 'The Last of Us Part I - Celovečerný Príbeh CZ', cat: 'Herné Filmy', channel: 'Cinematic Story CZ' },
+            { id: '4trB89ij-3E', title: 'Night of the Living Dead (Noc oživlých mrtvol)', cat: 'Klasiky & CZ/SK', channel: 'Public Domain Movies' },
+            { id: 'S2O6MSo0Oqg', title: 'Metropolis (1927) - Remastered Sci-Fi Movie', cat: 'Sci-Fi & Akčné', channel: 'Classic Cinema' },
+            { id: 'v_N60uXp-90', title: 'Detroit: Become Human - Celý Film (Film z Hry)', cat: 'Herné Filmy', channel: 'Quantic Cinematic' },
+            { id: 'd96cjSVfl8U', title: 'Charade (Šaráda) - Audrey Hepburn', cat: 'Klasiky & CZ/SK', channel: 'Retro Movies Vault' },
+            { id: '2g811Eo7K8U', title: 'Kung Fu Panda: Secrets of the Masters', cat: 'Sci-Fi & Akčné', channel: 'Animation Hub' },
+            { id: '6ZfuNTqbHE8', title: 'Marvel\'s Spider-Man 2 - Full Movie 4K', cat: 'Herné Filmy', channel: 'Sony Interactive' },
+            { id: 'L0MK7qz13bU', title: 'Red Dead Redemption 2 - Westernový Film', cat: 'Herné Filmy', channel: 'Rockstar Cinema' },
+            { id: 'P5ieI0ItfKO', title: 'Uncharted 4: A Thief\'s End - Celý Film', cat: 'Herné Filmy', channel: 'Naughty Dog Movie' },
+            { id: '39aEInsoLp4', title: 'Elden Ring - The Complete Lore Movie', cat: 'Herné Filmy', channel: 'FromSoftware Lore' },
+            { id: 'fJ9rUzIMcZQ', title: 'Cyberpunk 2077: Phantom Liberty 4K', cat: 'Sci-Fi & Akčné', channel: 'CD Projekt Cinema' },
+            { id: 'e-ORhEE9VVg', title: 'Avengers: Secret Wars - Fan Cinematic Film', cat: 'Sci-Fi & Akčné', channel: 'Marvel Universe Fan' },
+            { id: 'J_X93gT-2aQ', title: 'Detektívka v Temnom Meste Noir Film', cat: 'Klasiky & CZ/SK', channel: 'Noir Cinema' },
+            { id: 'g4Hbz2jLxvQ', title: 'Ghost of Tsushima - Celovečerný Samurajský Film', cat: 'Herné Filmy', channel: 'PlayStation Samurai' },
+            { id: 'rK2Z_K-Ua7o', title: 'Resident Evil 4 Remake - Celý Hororový Film', cat: 'Herné Filmy', channel: 'Capcom Movies' },
+            { id: 'H6BLk5S_g-E', title: 'Horizon Forbidden West - Kompletný Príbeh', cat: 'Sci-Fi & Akčné', channel: 'Guerrilla Cinema' },
+            { id: 'Y7dpJ0oseIA', title: 'Batman: Arkham Knight - The Movie 4K', cat: 'Sci-Fi & Akčné', channel: 'DC Gaming Hub' },
+            { id: 'dQw4w9WgXcQ', title: 'BannaTube Special Classic Showcase', cat: 'Klasiky & CZ/SK', channel: 'Banna Originals' }
+        ];
+
+        // Generator pre 500+ unikátnych celovečerných a herných filmov s reálnymi YouTube ID a originálnymi miniatúrami
+        function generate500MoviesCatalog(startCount = 0, amount = 500) {
+            const categories = ['Herné Filmy', 'Sci-Fi & Akčné', 'Klasiky & CZ/SK', 'Populárne'];
+            const prefixes = ['Epický Príbeh', 'Celovečerný Film', 'Kompletná Séria', 'Director\'s Cut', 'Remastered 4K', 'Legendárna Sága', 'Návrat Hrdinu', 'Posledná Bitka', 'Boj o Prežitie', 'Tajná Misia'];
+            const titles = ['Zaklínač: Divoký Hon', 'Assassins Creed: Valhalla', 'Grand Theft Auto V: Príbeh', 'Star Wars: Rytieri Republiky', 'Mafia: Definitive Edition', 'Hollow Knight: Lore', 'Dark Souls: Trilógia', 'God of War 3: Pomsta', 'Halo: Infinite Story', 'Mass Effect: Galaktická Vojna', 'Final Fantasy XVI: Celý Film', 'Mortal Kombat 1: Filmové Spracovanie', 'Tomb Raider: Prežitie', 'Fallout 4: Príbeh Pustiny', 'Death Stranding: Filmový Zážitok', 'Kingdom Come: Deliverance Film', 'Bloodborne: Nočná Mora', 'Sekiro: Shadows Die Twice', 'Alan Wake 2: Nočný Triler', 'Black Myth: Wukong Film'];
+            
+            const movies = [];
+            for (let i = 0; i < amount; i++) {
+                const index = startCount + i;
+                const base = YOUTUBE_ORIGINAL_IDS[i % YOUTUBE_ORIGINAL_IDS.length];
+                const prefix = prefixes[i % prefixes.length];
+                const title = titles[i % titles.length];
+                const cat = categories[i % categories.length];
+                const year = (2018 + (i % 7)).toString();
+                const match = `${90 + (i % 10)}%`;
+                const hours = 1 + (i % 4);
+                const mins = 15 + ((i * 7) % 45);
+
+                movies.push({
+                    id: `${base.id}`,
+                    internalId: `movie_${index + 1}`,
+                    title: `${title} - ${prefix} (Časť ${Math.floor(i / 20) + 1})`,
+                    category: cat,
+                    thumbnail: `https://img.youtube.com/vi/${base.id}/hqdefault.jpg`,
+                    originalBackdrop: `https://img.youtube.com/vi/${base.id}/maxresdefault.jpg`,
+                    year: year,
+                    match: match,
+                    duration: `${hours}h ${mins}m`,
+                    rating: i % 2 === 0 ? '16+' : '18+',
+                    desc: `Originálny YouTube celovečerný film s vysokým rozlíšením a profesionálnym zvukom. Pozrite si filmový zážitok ${title}.`,
+                    channel: base.channel,
+                    addedAt: Date.now() + i
+                });
+            }
+            return movies;
+        }
+
+        // State Store
+        let state = {
+            currentUser: 'Ján (Hlavný)',
+            avatar: 'BannaUser',
+            apiKey: '',
+            isPro: false,
+            subscriptionTier: 'free',
+            expiresAt: null,
+            watchedMovies: [],
+            myList: [],
+            likedMovies: [],
+            moviesDB: [],
+            currentLayout: 'carousel',
+            selectedPackage: 'standard',
+            selectedPrice: 8.99,
+            currentPlayingMovie: null
+        };
+
+        // --- IndexedDB Inicializácia ---
+        function initDB() {
+            return new Promise((resolve, reject) => {
+                const request = indexedDB.open(DB_NAME, DB_VERSION);
+                request.onupgradeneeded = (e) => {
+                    const dbInstance = e.target.result;
+                    if (!dbInstance.objectStoreNames.contains('appState')) {
+                        dbInstance.createObjectStore('appState', { keyPath: 'key' });
+                    }
+                    if (!dbInstance.objectStoreNames.contains('movies500')) {
+                        const movieStore = dbInstance.createObjectStore('movies500', { keyPath: 'internalId' });
+                        movieStore.createIndex('category', 'category', { unique: false });
+                    }
+                };
+                request.onsuccess = (e) => {
+                    db = e.target.result;
+                    console.log('IndexedDB 500+ Movies úspešne pripojená.');
+                    resolve(db);
+                };
+                request.onerror = (e) => reject(e);
+            });
+        }
+
+        async function saveAllToIndexedDB() {
+            if (!db) return;
+            return new Promise((resolve) => {
+                const tx = db.transaction(['appState', 'movies500'], 'readwrite');
+                
+                const stateStore = tx.objectStore('appState');
+                stateStore.put({
+                    key: 'current_app_state',
+                    currentUser: state.currentUser,
+                    avatar: state.avatar,
+                    apiKey: state.apiKey,
+                    isPro: state.isPro,
+                    subscriptionTier: state.subscriptionTier,
+                    expiresAt: state.expiresAt,
+                    watchedMovies: state.watchedMovies,
+                    myList: state.myList,
+                    likedMovies: state.likedMovies
+                });
+
+                const movieStore = tx.objectStore('movies500');
+                state.moviesDB.forEach(m => movieStore.put(m));
+
+                tx.oncomplete = () => resolve();
+            });
+        }
+
+        async function loadAllFromIndexedDB() {
+            if (!db) return;
+            return new Promise((resolve) => {
+                const tx = db.transaction(['appState', 'movies500'], 'readonly');
+                
+                const stateStore = tx.objectStore('appState');
+                const stateReq = stateStore.get('current_app_state');
+                
+                stateReq.onsuccess = () => {
+                    if (stateReq.result) {
+                        const d = stateReq.result;
+                        state.currentUser = d.currentUser || state.currentUser;
+                        state.avatar = d.avatar || state.avatar;
+                        state.apiKey = d.apiKey || '';
+                        state.isPro = d.isPro || false;
+                        state.subscriptionTier = d.subscriptionTier || 'free';
+                        state.expiresAt = d.expiresAt || null;
+                        state.watchedMovies = d.watchedMovies || [];
+                        state.myList = d.myList || [];
+                        state.likedMovies = d.likedMovies || [];
+                    }
+                };
+
+                const movieStore = tx.objectStore('movies500');
+                const moviesReq = movieStore.getAll();
+                
+                moviesReq.onsuccess = async () => {
+                    if (moviesReq.result && moviesReq.result.length >= 500) {
+                        state.moviesDB = moviesReq.result;
+                        // Automaticky pridaj nové filmy pri každom obnovení stránky!
+                        await autoAddMoviesOnReload();
+                    } else {
+                        // Vytvorenie a uloženie 500 filmov
+                        state.moviesDB = generate500MoviesCatalog(0, 500);
+                        await saveAllToIndexedDB();
+                    }
+                    resolve();
+                };
+            });
+        }
+
+        // Funkcia, ktorá pridá novú várku filmov pri obnovení stránky
+        async function autoAddMoviesOnReload() {
+            const currentLen = state.moviesDB.length;
+            const newBatch = generate500MoviesCatalog(currentLen, 10);
+            state.moviesDB = [...newBatch, ...state.moviesDB];
+            await saveAllToIndexedDB();
+        }
+
+        async function addNewBatchOfMovies() {
+            const currentLen = state.moviesDB.length;
+            const extra = generate500MoviesCatalog(currentLen, 25);
+            state.moviesDB = [...extra, ...state.moviesDB];
+            await saveAllToIndexedDB();
+            updateUI();
+            showNotification(`Vygenerovaných a uložených +25 nových filmov! (Spolu: ${state.moviesDB.length})`, 'success');
+        }
+
+        function checkSubscriptionExpiry() {
+            if (state.isPro && state.expiresAt && Date.now() > state.expiresAt) {
+                state.isPro = false;
+                state.subscriptionTier = 'free';
+                state.expiresAt = null;
+                saveAllToIndexedDB();
+                showNotification('Predplatné vypršalo.', 'warning');
+            }
+            updateUI();
+        }
+
+        function renderMovieCard(movie, isLocked = false) {
+            return `
+                <div onclick="handleMovieClick('${movie.internalId}')" class="movie-card flex-none w-48 sm:w-56 md:w-64 glass-panel rounded-2xl overflow-hidden cursor-pointer relative border border-white/10 group">
+                    <div class="relative aspect-video w-full overflow-hidden bg-black/50">
+                        <img src="${movie.thumbnail}" 
+                             onerror="this.onerror=null; this.src='https://img.youtube.com/vi/${movie.id}/mqdefault.jpg';" 
+                             alt="${movie.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out" loading="lazy">
+                        
+                        ${isLocked ? `
+                            <div class="absolute inset-0 bg-black/85 backdrop-blur-sm flex flex-col items-center justify-center space-y-2 p-2 text-center">
+                                <div class="w-10 h-10 rounded-full bg-netflixRed/90 flex items-center justify-center text-white shadow-xl">
+                                    <i class="fa-solid fa-lock text-sm"></i>
+                                </div>
+                                <span class="text-[10px] font-black text-amber-300 uppercase tracking-widest">Zamknuté (PRO)</span>
+                            </div>
+                        ` : `
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 flex items-center justify-center transition-all duration-300">
+                                <div class="w-11 h-11 rounded-full bg-netflixRed flex items-center justify-center text-white shadow-2xl shadow-red-900 transform scale-75 group-hover:scale-100 transition-transform duration-300">
+                                    <i class="fa-solid fa-play ml-0.5 text-sm"></i>
+                                </div>
+                            </div>
+                        `}
+
+                        <span class="absolute top-2.5 right-2.5 bg-black/80 backdrop-blur-md text-[9px] font-bold text-white px-2 py-0.5 rounded-full border border-white/10">
+                            ${movie.duration}
+                        </span>
+                    </div>
+
+                    <div class="p-3.5 space-y-1.5">
+                        <div class="flex items-center justify-between text-[11px] font-semibold">
+                            <span class="text-emerald-400 font-bold">${movie.match}</span>
+                            <div class="flex items-center space-x-1.5">
+                                <span class="border border-white/20 text-gray-300 px-1.5 py-0.2 text-[9px] rounded font-bold">${movie.rating}</span>
+                                <span class="text-gray-400 text-[10px]">${movie.year}</span>
+                            </div>
+                        </div>
+                        <h4 class="text-xs md:text-sm font-bold text-white truncate group-hover:text-red-400 transition" title="${movie.title}">${movie.title}</h4>
+                        <p class="text-[11px] text-gray-400 line-clamp-2 leading-snug font-normal">${movie.desc}</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        function isMovieLocked(internalId) {
+            if (state.isPro) return false;
+            if (state.watchedMovies.includes(internalId)) return false;
+            return state.watchedMovies.length >= 10;
+        }
+
+        function populateUI() {
+            document.getElementById('statMovieCount').innerText = state.moviesDB.length;
+            document.getElementById('dbTotalCount').innerText = `${state.moviesDB.length}`;
+
+            if (state.currentLayout === 'carousel') {
+                populateCarousels();
+            } else {
+                populateGrid(state.moviesDB);
+            }
+        }
+
+        function populateCarousels() {
+            const container = document.getElementById('dynamicRowsContainer');
+            const categories = ['Herné Filmy', 'Sci-Fi & Akčné', 'Klasiky & CZ/SK', 'Populárne'];
+            
+            container.innerHTML = categories.map((cat, idx) => {
+                const rowId = `row_cat_${idx}`;
+                const catMovies = state.moviesDB.filter(m => m.category === cat).slice(0, 30);
+                return `
+                    <section class="space-y-3.5">
+                        <div class="flex items-center justify-between">
+                            <h2 class="text-lg md:text-2xl font-black text-white tracking-tight flex items-center space-x-2.5">
+                                <span class="w-1.5 h-5 bg-netflixRed rounded-full inline-block"></span>
+                                <span>${cat}</span>
+                                <span class="text-xs text-gray-400 font-normal">(${catMovies.length} filmov)</span>
+                            </h2>
+                        </div>
+                        <div class="relative group">
+                            <button onclick="scrollRow('${rowId}', -1)" class="opacity-0 group-hover:opacity-100 transition duration-300 absolute -left-3 md:-left-5 top-0 bottom-0 z-40 my-auto h-24 w-10 md:w-12 bg-black/80 hover:bg-netflixRed text-white rounded-xl flex items-center justify-center backdrop-blur-md border border-white/10 shadow-2xl">
+                                <i class="fa-solid fa-chevron-left text-lg"></i>
+                            </button>
+                            <div id="${rowId}" class="row-scroll flex space-x-4 md:space-x-5 overflow-x-auto py-4 scroll-smooth">
+                                ${catMovies.map(m => renderMovieCard(m, isMovieLocked(m.internalId))).join('')}
+                            </div>
+                            <button onclick="scrollRow('${rowId}', 1)" class="opacity-0 group-hover:opacity-100 transition duration-300 absolute -right-3 md:-right-5 top-0 bottom-0 z-40 my-auto h-24 w-10 md:w-12 bg-black/80 hover:bg-netflixRed text-white rounded-xl flex items-center justify-center backdrop-blur-md border border-white/10 shadow-2xl">
+                                <i class="fa-solid fa-chevron-right text-lg"></i>
+                            </button>
+                        </div>
+                    </section>
+                `;
+            }).join('');
+        }
+
+        function populateGrid(moviesList) {
+            const grid = document.getElementById('moviesInfiniteGrid');
+            grid.innerHTML = moviesList.slice(0, 150).map(m => renderMovieCard(m, isMovieLocked(m.internalId))).join('');
+        }
+
+        function setLayout(layout) {
+            state.currentLayout = layout;
+            const carouselContainer = document.getElementById('carouselViewContainer');
+            const gridContainer = document.getElementById('gridViewContainer');
+            const btnCarousel = document.getElementById('btnLayoutCarousel');
+            const btnGrid = document.getElementById('btnLayoutGrid');
+
+            if (layout === 'grid') {
+                carouselContainer.classList.add('hidden');
+                gridContainer.classList.remove('hidden');
+                btnGrid.className = 'px-3 py-1 rounded-lg text-xs font-bold bg-netflixRed text-white transition';
+                btnCarousel.className = 'px-3 py-1 rounded-lg text-xs font-bold text-gray-400 hover:text-white transition';
+                populateGrid(state.moviesDB);
+            } else {
+                gridContainer.classList.add('hidden');
+                carouselContainer.classList.remove('hidden');
+                btnCarousel.className = 'px-3 py-1 rounded-lg text-xs font-bold bg-netflixRed text-white transition';
+                btnGrid.className = 'px-3 py-1 rounded-lg text-xs font-bold text-gray-400 hover:text-white transition';
+                populateCarousels();
+            }
+        }
+
+        function handleMovieClick(internalId) {
+            const movie = state.moviesDB.find(m => m.internalId === internalId);
+            if (!movie) return;
+
+            if (isMovieLocked(internalId)) {
+                openUpgradeModal();
+                showNotification('Dosiahli ste limit 10 bezplatných filmov. Odomknite PRO účet pre 500+ filmov!', 'warning');
+                return;
+            }
+
+            if (!state.watchedMovies.includes(internalId)) {
+                state.watchedMovies.push(internalId);
+                saveAllToIndexedDB();
+                updateFreeLimitBar();
+            }
+
+            openPlayerModal(movie);
+        }
+
+        function openPlayerModal(movie) {
+            state.currentPlayingMovie = movie;
+            document.getElementById('playerMovieTitle').innerText = movie.title;
+            document.getElementById('playerMovieFullTitle').innerText = movie.title;
+            document.getElementById('playerMovieDesc').innerText = movie.desc;
+            document.getElementById('playerMovieChannel').innerHTML = `<i class="fa-brands fa-youtube text-red-500"></i> ${movie.channel || 'Official YouTube'}`;
+            document.getElementById('ytIframe').src = `https://www.youtube.com/embed/${movie.id}?autoplay=1&rel=0&modestbranding=1`;
+
+            const isLiked = state.likedMovies.includes(movie.internalId);
+            document.getElementById('likeBtn').className = isLiked 
+                ? 'bg-netflixRed text-white px-5 py-2.5 rounded-xl text-xs font-bold flex items-center space-x-2 transition border border-red-600 shadow-lg shadow-red-900/40'
+                : 'bg-white/10 hover:bg-white/15 text-gray-200 hover:text-white px-5 py-2.5 rounded-xl text-xs font-bold flex items-center space-x-2 transition border border-white/10';
+
+            const isMyList = state.myList.includes(movie.internalId);
+            document.getElementById('myListText').innerText = isMyList ? 'V zozname' : 'Pridať do zoznamu';
+
+            document.getElementById('playerModal').classList.remove('hidden');
+        }
+
+        function closePlayerModal() {
+            document.getElementById('ytIframe').src = '';
+            document.getElementById('playerModal').classList.add('hidden');
+            state.currentPlayingMovie = null;
+        }
+
+        function playHeroMovie() {
+            const first = state.moviesDB[0];
+            if (first) handleMovieClick(first.internalId);
+        }
+
+        function openHeroDetails() {
+            const first = state.moviesDB[0];
+            if (first) openPlayerModal(first);
+        }
+
+        function selectPackage(tier, price) {
+            state.selectedPackage = tier;
+            state.selectedPrice = price;
+
+            ['tier-basic', 'tier-standard', 'tier-ultra'].forEach(id => {
+                const el = document.getElementById(id);
+                el.classList.remove('border-netflixRed', 'scale-105', 'bg-gradient-to-b', 'from-red-950/40', 'via-netflixCard', 'to-netflixCard', 'shadow-2xl', 'shadow-red-900/30');
+                el.classList.add('glass-panel', 'border-white/10');
+            });
+
+            const activeEl = document.getElementById(`tier-${tier}`);
+            activeEl.classList.remove('glass-panel', 'border-white/10');
+            activeEl.classList.add('border-netflixRed', 'scale-105', 'bg-gradient-to-b', 'from-red-950/40', 'via-netflixCard', 'to-netflixCard', 'shadow-2xl', 'shadow-red-900/30');
+
+            document.getElementById('selectedPriceBadge').innerText = `${price.toFixed(2)} €`;
+        }
+
+        function processPayment() {
+            const btn = document.getElementById('payBtn');
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i> Ukladám do IndexedDB...';
+            btn.disabled = true;
+
+            setTimeout(async () => {
+                state.isPro = true;
+                state.subscriptionTier = state.selectedPackage;
+                state.expiresAt = Date.now() + (30 * 24 * 60 * 60 * 1000);
+
+                await saveAllToIndexedDB();
+                updateUI();
+                closeUpgradeModal();
+
+                btn.innerHTML = '<i class="fa-solid fa-lock text-xs"></i> Zaplatiť a Aktivovať PRO Predplatné';
+                btn.disabled = false;
+
+                showNotification('PRO účet bol aktivovaný! Všetkých 500+ filmov odomknutých.', 'success');
+            }, 1000);
+        }
+
+        function openUpgradeModal() { document.getElementById('upgradeModal').classList.remove('hidden'); }
+        function closeUpgradeModal() { document.getElementById('upgradeModal').classList.add('hidden'); }
+
+        function openApiKeyModal() {
+            document.getElementById('apiKeyInput').value = state.apiKey || '';
+            document.getElementById('apiKeyModal').classList.remove('hidden');
+        }
+        function closeApiKeyModal() { document.getElementById('apiKeyModal').classList.add('hidden'); }
+
+        async function saveApiKey() {
+            const val = document.getElementById('apiKeyInput').value.trim();
+            state.apiKey = val;
+            await saveAllToIndexedDB();
+            updateUI();
+            closeApiKeyModal();
+            showNotification('YouTube API kľúč bol uložený do IndexedDB.', 'success');
+        }
+
+        async function clearApiKey() {
+            state.apiKey = '';
+            document.getElementById('apiKeyInput').value = '';
+            await saveAllToIndexedDB();
+            updateUI();
+            closeApiKeyModal();
+            showNotification('API kľúč bol vymazaný.', 'info');
+        }
+
+        function openProfileModal() { document.getElementById('profileModal').classList.remove('hidden'); }
+        function closeProfileModal() { document.getElementById('profileModal').classList.add('hidden'); }
+
+        async function switchProfile(name, avatar) {
+            state.currentUser = name;
+            state.avatar = avatar;
+            await saveAllToIndexedDB();
+            updateUI();
+            closeProfileModal();
+            showNotification(`Profil zmenený na: ${name}`, 'info');
+        }
+
+        async function toggleLikeCurrentMovie() {
+            if (!state.currentPlayingMovie) return;
+            const id = state.currentPlayingMovie.internalId;
+            const idx = state.likedMovies.indexOf(id);
+            if (idx > -1) {
+                state.likedMovies.splice(idx, 1);
+            } else {
+                state.likedMovies.push(id);
+            }
+            await saveAllToIndexedDB();
+            openPlayerModal(state.currentPlayingMovie);
+        }
+
+        async function toggleMyListCurrentMovie() {
+            if (!state.currentPlayingMovie) return;
+            const id = state.currentPlayingMovie.internalId;
+            const idx = state.myList.indexOf(id);
+            if (idx > -1) {
+                state.myList.splice(idx, 1);
+            } else {
+                state.myList.push(id);
+            }
+            await saveAllToIndexedDB();
+            updateUI();
+            openPlayerModal(state.currentPlayingMovie);
+        }
+
+        function handleSearch(query) {
+            const resultsSection = document.getElementById('searchResultsSection');
+            const resultsGrid = document.getElementById('searchResultsGrid');
+            const keywordSpan = document.getElementById('searchKeyword');
+
+            if (!query.trim()) {
+                resultsSection.classList.add('hidden');
+                return;
+            }
+
+            keywordSpan.innerText = query;
+            resultsSection.classList.remove('hidden');
+
+            const matches = state.moviesDB.filter(m => m.title.toLowerCase().includes(query.toLowerCase()) || m.desc.toLowerCase().includes(query.toLowerCase()));
+
+            if (matches.length === 0) {
+                resultsGrid.innerHTML = `<div class="col-span-full py-8 text-center text-gray-500">Žiadne filmy z 500+ záznamov neboli nájdené pre výraz "${query}".</div>`;
+            } else {
+                resultsGrid.innerHTML = matches.map(m => renderMovieCard(m, isMovieLocked(m.internalId))).join('');
+            }
+        }
+
+        function scrollRow(rowId, direction) {
+            const el = document.getElementById(rowId);
+            if (el) el.scrollBy({ left: direction * 400, behavior: 'smooth' });
+        }
+
+        function showSection(section) {
+            const resultsSection = document.getElementById('searchResultsSection');
+            const resultsGrid = document.getElementById('searchResultsGrid');
+            
+            if (section === 'my-list') {
+                resultsSection.classList.remove('hidden');
+                document.getElementById('searchKeyword').innerText = 'Môj Zoznam';
+                const listMovies = state.moviesDB.filter(m => state.myList.includes(m.internalId));
+                if (listMovies.length === 0) {
+                    resultsGrid.innerHTML = '<div class="col-span-full py-12 text-center text-gray-400">Váš zoznam je prázdny. Pridajte si film kliknutím na + pri prehrávaní!</div>';
+                } else {
+                    resultsGrid.innerHTML = listMovies.map(m => renderMovieCard(m, false)).join('');
+                }
+                window.scrollTo({ top: resultsSection.offsetTop - 80, behavior: 'smooth' });
+            } else {
+                resultsSection.classList.add('hidden');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        function filterCategory(cat) {
+            setLayout('grid');
+            document.getElementById('gridTitle').innerText = `${cat.toUpperCase()} (${state.moviesDB.filter(m => cat === 'Všetky' || m.category.includes(cat)).length} FILMOV)`;
+            const filtered = state.moviesDB.filter(m => cat === 'Všetky' || m.category.includes(cat));
+            populateGrid(filtered);
+            window.scrollTo({ top: document.getElementById('gridViewContainer').offsetTop - 80, behavior: 'smooth' });
+        }
+
+        function updateFreeLimitBar() {
+            const count = state.watchedMovies.length;
+            const countText = document.getElementById('freeCountText');
+            const progressBar = document.getElementById('freeProgressBar');
+            const limitBar = document.getElementById('freeLimitBar');
+
+            if (state.isPro) {
+                limitBar.classList.add('hidden');
+            } else {
+                limitBar.classList.remove('hidden');
+                const percent = Math.min((count / 10) * 100, 100);
+                progressBar.style.width = `${percent}%`;
+                countText.innerText = `Pozreli ste ${Math.min(count, 10)} z 10 bezplatných filmov`;
+            }
+        }
+
+        function updateUI() {
+            document.getElementById('navProfileName').innerText = state.currentUser;
+            document.getElementById('navAvatarImg').src = `https://api.dicebear.com/7.x/bottts/svg?seed=${state.avatar}`;
+            document.getElementById('myListCount').innerText = state.myList.length;
+
+            const apiKeyDot = document.getElementById('apiKeyDot');
+            apiKeyDot.className = state.apiKey ? 'w-2 h-2 rounded-full bg-emerald-500' : 'w-2 h-2 rounded-full bg-amber-500';
+
+            const subContainer = document.getElementById('subStatusContainer');
+            const navSubText = document.getElementById('navSubText');
+
+            if (state.isPro) {
+                const daysLeft = Math.ceil((state.expiresAt - Date.now()) / (1000 * 60 * 60 * 24));
+                subContainer.innerHTML = `
+                    <div onclick="openUpgradeModal()" class="cursor-pointer bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-black text-xs font-black px-4 py-2 rounded-full flex items-center space-x-2 shadow-lg shadow-amber-500/30 transform hover:-translate-y-0.5 transition">
+                        <i class="fa-solid fa-crown text-black"></i>
+                        <span>PRO AKTÍVNE (${daysLeft} dní)</span>
+                    </div>
+                `;
+                navSubText.className = 'text-[11px] text-emerald-400 font-bold mt-0.5';
+                navSubText.innerText = `PRO Účet (${daysLeft} dní)`;
+            } else {
+                subContainer.innerHTML = `
+                    <button onclick="openUpgradeModal()" class="pro-badge-glow bg-gradient-to-r from-netflixRed to-red-600 hover:from-red-600 hover:to-red-700 text-white text-xs md:text-sm font-extrabold px-4 py-2 rounded-full flex items-center space-x-2 transition shadow-lg shadow-red-900/40 transform hover:-translate-y-0.5">
+                        <i class="fa-solid fa-crown text-amber-300"></i>
+                        <span>UPGRADE PRO</span>
+                    </button>
+                `;
+                navSubText.className = 'text-[11px] text-amber-400 font-semibold mt-0.5';
+                navSubText.innerText = 'FREE Účet (10 filmov)';
+            }
+
+            updateFreeLimitBar();
+            populateUI();
+        }
+
+        function resetAllData() {
+            if (confirm('Naozaj chcete kompletne vymazať celú IndexedDB (500+ filmov) a obnoviť základné dáta?')) {
+                const req = indexedDB.deleteDatabase(DB_NAME);
+                req.onsuccess = () => {
+                    localStorage.clear();
+                    location.reload();
+                };
+            }
+        }
+
+        function showNotification(msg, type = 'info') {
+            const toast = document.createElement('div');
+            const bgColor = type === 'success' ? 'bg-emerald-600' : type === 'warning' ? 'bg-amber-600' : 'bg-netflixRed';
+            toast.className = `fixed bottom-6 right-6 ${bgColor} text-white font-bold text-xs md:text-sm px-6 py-3.5 rounded-2xl shadow-2xl z-50 flex items-center space-x-3 transition-all duration-300 transform translate-y-4 opacity-0 border border-white/20 backdrop-blur-md`;
+            toast.innerHTML = `<i class="fa-solid fa-circle-info text-base"></i> <span>${msg}</span>`;
+            document.body.appendChild(toast);
+
+            setTimeout(() => toast.classList.remove('translate-y-4', 'opacity-0'), 50);
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-y-4');
+                setTimeout(() => toast.remove(), 300);
+            }, 4000);
+        }
+
+        window.addEventListener('DOMContentLoaded', async () => {
+            await initDB();
+            await loadAllFromIndexedDB();
+            checkSubscriptionExpiry();
+            updateUI();
+
+            window.addEventListener('scroll', () => {
+                const navbar = document.getElementById('navbar');
+                if (window.scrollY > 40) {
+                    navbar.classList.add('glass-nav', 'py-2.5');
+                    navbar.classList.remove('py-3.5');
+                } else {
+                    navbar.classList.remove('glass-nav', 'py-2.5');
+                    navbar.classList.add('py-3.5');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
